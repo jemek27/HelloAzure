@@ -5,28 +5,26 @@ pipeline {
         ACR_NAME = 'myacrjemek'
         ACR_LOGIN_SERVER = "${ACR_NAME}.azurecr.io"
         IMAGE_NAME = 'helloapp'
-        TAG = "latest"  // Możesz też ustawić na "${env.BUILD_NUMBER}" albo z GIT SHA
+        TAG = "latest"
     }
 
     stages {
-        stage('Clone Repo') {
+        stage('Build App') {
             steps {
-                git 'https://github.com/jemek27/HelloAzure.git'
+                sh 'mvn clean package -DskipTests'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                script {
-                    sh "docker build -t ${IMAGE_NAME}:${TAG} ."
-                }
+                sh "docker build -t ${IMAGE_NAME}:${TAG} ."
             }
         }
 
         stage('Login to ACR') {
             steps {
                 withCredentials([usernamePassword(
-                    credentialsId: 'acr-credentials', // ustawinoe w Jenkinsie
+                    credentialsId: 'acr-credentials',
                     usernameVariable: 'ACR_USERNAME',
                     passwordVariable: 'ACR_PASSWORD'
                 )]) {
