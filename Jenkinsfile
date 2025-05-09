@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'maven:3.8.4-jdk-11'  // Użyj obrazu Mavena z JDK 11
+            args '-v $HOME/.m2:/root/.m2' // Wymiana katalogu z repozytorium Maven na trwały
+        }
+    }
 
     environment {
         ACR_NAME = 'myacrjemek'
