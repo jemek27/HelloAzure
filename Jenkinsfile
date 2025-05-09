@@ -13,16 +13,17 @@ pipeline {
         TAG = "latest"
     }
 
-    stage('Install Docker') {
-        steps {
-            script {
-                // Instalacja Dockera wewnątrz kontenera (do operacji na Dockerze)
-                sh 'apt-get update && apt-get install -y docker.io'
+    stages {
+
+        stage('Install Docker') {
+            steps {
+                script {
+                    // Instalacja Dockera wewnątrz kontenera (do operacji na Dockerze)
+                    sh 'apt-get update && apt-get install -y docker.io'
+                }
             }
         }
-    }
 
-    stages {
         stage('Build App') {
             steps {
                 sh 'mvn clean package -DskipTests'
