@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'maven:3.8.4-jdk-11'  // Użyj obrazu Mavena z JDK 11
+            image 'maven:3.8.4-jdk-17'  // Użyj obrazu Mavena z JDK 17
             args '-v $HOME/.m2:/root/.m2' // Wymiana katalogu z repozytorium Maven na trwały
         }
     }
